@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-    console.log("🚀 Deploying AcademiaTrust contract...\n");
+    console.log("🚀 Deploying TrueDegree contract...\n");
 
     // Get the deployer account
     const [deployer] = await hre.ethers.getSigners();
@@ -10,12 +10,12 @@ async function main() {
     console.log(`💰 Deployer balance : ${hre.ethers.formatEther(balance)} ETH\n`);
 
     // Deploy
-    const AcademiaTrust = await hre.ethers.getContractFactory("AcademiaTrust");
-    const academiaTrust = await AcademiaTrust.deploy();
-    await academiaTrust.waitForDeployment();
+    const TrueDegree = await hre.ethers.getContractFactory("TrueDegree");
+    const trueDegree = await TrueDegree.deploy();
+    await trueDegree.waitForDeployment();
 
-    const contractAddress = await academiaTrust.getAddress();
-    console.log(`✅ AcademiaTrust deployed at: ${contractAddress}`);
+    const contractAddress = await trueDegree.getAddress();
+    console.log(`✅ TrueDegree deployed at: ${contractAddress}`);
     console.log(`\n📋 Copy this address to your backend/.env:`);
     console.log(`   CONTRACT_ADDRESS=${contractAddress}`);
     console.log(`\n🔗 Verification (Sepolia):`);

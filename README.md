@@ -1,9 +1,9 @@
-# AcademiaTrust 🎓🔗
+# TrueDegree 🎓🔗
 ### Blockchain-Based Degree Authenticity Validator
 
 > Stop fake degrees in India — one hash at a time.
 
-AcademiaTrust combines **OCR + SHA-256 hashing + Ethereum smart contracts** to create an immutable, publicly verifiable registry of academic certificates.
+TrueDegree combines **OCR + SHA-256 hashing + Ethereum smart contracts** to create an immutable, publicly verifiable registry of academic certificates.
 
 ---
 
@@ -11,7 +11,7 @@ AcademiaTrust combines **OCR + SHA-256 hashing + Ethereum smart contracts** to c
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    AcademiaTrust                         │
+│                    TrueDegree                            │
 ├──────────────┬──────────────────┬───────────────────────┤
 │  /contracts  │    /backend      │      /frontend         │
 │  Solidity    │  Python FastAPI  │    React + Vite        │

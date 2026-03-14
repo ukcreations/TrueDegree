@@ -1,7 +1,7 @@
 {
-  "name": "academiatrust-contracts",
+  "name": "truedegree-contracts",
   "version": "1.0.0",
-  "description": "AcademiaTrust Smart Contracts — Hardhat workspace",
+  "description": "TrueDegree Smart Contracts — Hardhat workspace",
   "scripts": {
     "compile": "hardhat compile",
     "test":    "hardhat test",

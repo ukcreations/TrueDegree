@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/// @title AcademiaTrust — Soulbound Degree Authenticity Registry
+/// @title TrueDegree — Soulbound Degree Authenticity Registry
 /// @notice Stores and verifies SHA-256 hashes of academic certificates on-chain.
 ///         Certificates are Soulbound: once issued, they cannot be transferred or deleted.
-contract AcademiaTrust {
+contract TrueDegree {
     // ─────────────────────────────────────────────────────────────────────────
     // Data Structures
     // ─────────────────────────────────────────────────────────────────────────
@@ -53,14 +53,14 @@ contract AcademiaTrust {
     // ─────────────────────────────────────────────────────────────────────────
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "AcademiaTrust: caller is not owner");
+        require(msg.sender == owner, "TrueDegree: caller is not owner");
         _;
     }
 
     modifier onlyIssuer() {
         require(
             authorizedIssuers[msg.sender] || msg.sender == owner,
-            "AcademiaTrust: caller is not an authorized issuer"
+            "TrueDegree: caller is not an authorized issuer"
         );
         _;
     }

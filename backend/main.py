@@ -1,5 +1,5 @@
 """
-AcademiaTrust Backend — FastAPI Application
+TrueDegree Backend — FastAPI Application
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import hash_router, ocr_router, blockchain_router
 
 app = FastAPI(
-    title="AcademiaTrust API",
+    title="TrueDegree API",
     description="Blockchain-Based Degree Authenticity Validator — Backend API",
     version="1.0.0",
 )
@@ -31,6 +31,6 @@ app.include_router(blockchain_router.router, prefix="/api", tags=["Blockchain"])
 async def root():
     return {
         "status": "ok",
-        "message": "AcademiaTrust API is running 🎓",
+        "message": "TrueDegree API is running 🎓",
         "docs":    "/docs",
     }

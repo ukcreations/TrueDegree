@@ -1,16 +1,16 @@
 #!/bin/sh
 
-echo "Starting AcademiaTrust..."
+echo "Starting TrueDegree..."
 
 # Create a simple index.html for health check
 cat > /var/www/html/index.html << 'EOF'
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AcademiaTrust</title>
+    <title>TrueDegree</title>
 </head>
 <body>
-    <h1>AcademiaTrust is running! 🎓</h1>
+    <h1>TrueDegree is running! 🎓</h1>
     <p>Frontend: Working</p>
     <p>Backend: Starting...</p>
 </body>
