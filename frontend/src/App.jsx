@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import AuthGate from './components/AuthGate.jsx'
@@ -22,7 +22,12 @@ function getSessionUser() {
 }
 
 export default function App() {
-    const [currentUser, setCurrentUser] = useState(() => getSessionUser())
+    const [currentUser, setCurrentUser] = useState(null)
+
+    // Clear session on app load to force login page
+    useEffect(() => {
+        localStorage.removeItem('truedegree_session')
+    }, [])
 
     const settingsPage = useMemo(
         () => <Settings currentUser={currentUser} onUpdateUser={setCurrentUser} />,
