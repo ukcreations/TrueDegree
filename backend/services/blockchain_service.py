@@ -9,7 +9,13 @@ from pathlib import Path
 from typing import Optional, Tuple, Dict
 
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
+try:
+    from web3.middleware import ExtraDataToPOAMiddleware as poa_middleware
+except ImportError:
+    try:
+        from web3.middleware import geth_poa_middleware as poa_middleware
+    except ImportError:
+        poa_middleware = None
 from config import get_settings
 
 settings = get_settings()
@@ -83,7 +89,11 @@ def _get_web3() -> Web3:
     """Initialize Web3 connection to the configured RPC endpoint."""
     w3 = Web3(Web3.HTTPProvider(settings.rpc_url))
     # Required for POA chains (Sepolia, Goerli, local Hardhat)
-    w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+    if poa_middleware is not None:
+        try:
+            w3.middleware_onion.inject(poa_middleware, layer=0)
+        except Exception:
+            pass
     if not w3.is_connected():
         raise ConnectionError(f"Cannot connect to RPC: {settings.rpc_url}")
     return w3
@@ -91,6 +101,8 @@ def _get_web3() -> Web3:
 
 def _get_contract(w3: Web3):
     """Return a bound contract instance."""
+    if not settings.contract_address:
+        raise ValueError("Contract address is not configured in settings")
     abi = _load_abi()
     return w3.eth.contract(
         address=Web3.to_checksum_address(settings.contract_address),
@@ -103,6 +115,8 @@ def _build_and_send(w3: Web3, contract_fn) -> str:
     Build a transaction, sign it with the admin private key, send it,
     and wait for the receipt. Returns the transaction hash as hex string.
     """
+    if not settings.private_key:
+        raise ValueError("Admin private key is not configured")
     account = w3.eth.account.from_key(f"0x{settings.private_key}")
     nonce   = w3.eth.get_transaction_count(account.address)
 
@@ -114,7 +128,8 @@ def _build_and_send(w3: Web3, contract_fn) -> str:
     })
 
     signed  = w3.eth.account.sign_transaction(tx, private_key=f"0x{settings.private_key}")
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+    raw_tx  = getattr(signed, "raw_transaction", None) or getattr(signed, "rawTransaction", None)
+    tx_hash = w3.eth.send_raw_transaction(raw_tx)
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
 
     if receipt.status != 1:

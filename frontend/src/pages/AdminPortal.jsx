@@ -58,10 +58,30 @@ export default function AdminPortal() {
         setError('')
         setHashLoading(true)
         try {
-            const res = await api.hashFile(f)
-            setHash(res.sha256)
+            const [hashRes, ocrRes] = await Promise.allSettled([
+                api.hashFile(f),
+                api.ocrFile(f),
+            ])
+
+            if (hashRes.status === 'fulfilled') {
+                setHash(hashRes.value.sha256)
+            } else {
+                setError('Failed to compute file hash.')
+            }
+
+            if (ocrRes.status === 'fulfilled' && ocrRes.value) {
+                const doc = ocrRes.value
+                if (doc.roll_number && !rollNumber) setRollNumber(doc.roll_number)
+                if (doc.student_name && !studentName) setStudentName(doc.student_name)
+                if (doc.university_name && !university) setUniversity(doc.university_name)
+                if (doc.degree && !degree) setDegree(doc.degree)
+
+                if (!doc.is_academic && window.addToast) {
+                    window.addToast(`Notice: File detected as ${doc.category || 'Non-Academic'}. Ensure you upload official degree credentials.`, 'warning', 5000)
+                }
+            }
         } catch (e) {
-            setError('Failed to compute hash. Check the backend is running.')
+            setError('Failed to process file. Check backend is running.')
         } finally {
             setHashLoading(false)
         }

@@ -1,3 +1,3 @@
-from services import ocr_service, blockchain_service
+from services import ocr_service, blockchain_service, analyzer_service
 
-__all__ = ["ocr_service", "blockchain_service"]
+__all__ = ["ocr_service", "blockchain_service", "analyzer_service"]

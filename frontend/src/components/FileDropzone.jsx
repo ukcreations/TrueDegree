@@ -14,6 +14,14 @@ export default function FileDropzone({ onFile, label = 'Drop your certificate he
         }
     }, [onFile])
 
+    if (typeof window !== 'undefined') {
+        window.__testUpload = (f) => {
+            setFileName(f.name)
+            setFileSize((f.size / 1024).toFixed(1))
+            onFile(f)
+        }
+    }
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
